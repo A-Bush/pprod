@@ -1,0 +1,19 @@
+/**
+ * @version		2.6.x
+ * @package		K2
+ * @author		JoomlaWorks http://www.joomlaworks.net
+ * @copyright	Copyright (c) 2006 - 2014 JoomlaWorks Ltd. All rights reserved.
+ * @license		GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * K2.css Default K2 Template Override 
+ * Created by K2Joom.com
+ */
+ 
+/* Links to individual css files */
+
+#k2Container{
+	background: red;
+}
+
+.itemListView{
+	background: red;
+}

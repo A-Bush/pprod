@@ -1,0 +1,15 @@
+# files in www/
+/*.txt
+/*.html
+configuration.php
+.htaccess
+
+# folders
+.idea/
+images/*
+media/*
+logs/*
+tmp/*
+
+# all project files
+*.xml

@@ -1,0 +1,263 @@
+
+.slick-slider {
+	margin-bottom: 10px;
+	}
+.slick-prev, .slick-next{
+	height: 30px;
+	width: 30px;
+
+	&:before{
+		color: @black;
+		font-size: 30px;
+	}
+}
+
+.slick-next{
+	right: 25px;
+}
+
+.slick-prev{
+	left: 25px;
+}
+.productItem{
+	.container-fluid{
+		padding: 0;
+	.row{
+		margin: 0;
+	}
+	.row.images{
+		div[class*="col-"]{
+			padding: 0;
+		}
+	}
+	}
+	.product_price{
+		font-size: 1.5em;
+	}
+	.product_quantity_input{
+		padding-left: 15px;
+	}
+}
+
+.k2store-product-info{
+	padding-top: 20px;
+}
+
+.k2store {
+	.product_quantity_input input{
+			width: 50px;
+			height: 30px;
+		}
+	.select-wrapper{
+		margin: 10px 0;
+		display: inline-block;
+		border: 1px solid @black;
+		
+		select, input{
+			margin: 0;
+			border: none;
+			box-shadow: none;
+		}
+	}
+	span.select-wrapper{
+		&:extend(.select-wrapper);
+		margin: 0;
+	}
+
+	.k2store_cart_button.btn_add_to_cart{
+		margin-top: 20px;
+		.button-common(15px 50px, 1.5em);
+	}
+}
+
+.collection{
+	.product-caption{
+		position: static;
+	}
+	.catItemView, {
+		&, &-item{
+
+			// height: 400px;
+			width: 100%;
+			position: relative;
+		}
+		@media @mobile {
+			.collection-image-container{
+				.collection-image{
+					&:before{
+						opacity: 0.8;
+					}
+				}
+			}
+		}
+		&:hover {
+			.collection-image-container{
+				.collection-image{
+					transform: scale(1.1);
+					&:before{
+						opacity: 1;
+					}
+				}
+			}
+			.collection-content-inner{
+				color: @white;
+				a{
+					color: @white;
+				}
+			}
+		}
+		
+		
+	}
+}
+.collections_category .collection-content {
+	&, &-item{
+
+		text-align: left;
+		z-index: 1;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+	&-item{
+		color: @white;
+	}
+
+	.collection-content-inner{
+		// float: left;
+		width: 50%;
+		margin: 0 auto;
+		height: 100%;
+		position: relative;
+		.catItemHeader{
+			position: absolute;
+			width: 100%;
+			bottom: 0;
+			-webkit-transition: all 0.5s linear;
+			transition: all 0.5s linear;
+			text-align: center;
+			padding-bottom: 30px;
+		}
+		.catItemIntroText{
+			display: none;
+		}
+
+		@media @mobile {
+			width: 100%;
+			.catItemHeader{
+				color: @white;
+				a{
+					color: @white;
+				}
+			}
+			.catItemIntroText{
+				display: block;
+			}
+		}
+	}
+}
+.collection-image-container{
+		overflow: hidden;
+	&, &-item{
+		height: 400px;
+		position: relative;
+		z-index: 0;
+		// height: 100%;
+		width: 100%;
+	}
+}
+.collection-image{
+	&, &-item{
+		background-size: cover;
+		background-position: center center;
+		width: 100%;
+		height: 100%;
+	}
+	&-item{
+		background-attachment: fixed;
+	}
+	float: left;			
+	transition: all 2.5s linear;
+	.collections_category &:before, .collections_category &-item:before{
+		content: '';
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0,0,0,0.7);
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: block;
+	}
+	&:before{
+		opacity: 0;
+		-webkit-transition: opacity 0.5s linear;
+		transition: opacity 0.5s linear;
+
+	}
+	&-item:before{
+		opacity: 1;
+	}
+}
+#k2Container.tagView.home-page{
+	height: 100%;
+	.slick-list{
+		height: 100%;
+		.slick-track{
+			height: 100%;
+		}
+	}
+	.tagItemList.single-item{
+		height: 80%;
+		.tagItemView{
+			height: 100%;
+
+		}
+	}
+}
+.product-image{
+	position: relative;
+	.product-image-hover{
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		opacity: 0;
+		webkit-transition: opacity 0.2s linear;
+		-webkit-transition-delay: 0s;
+		-moz-transition: opacity 0.2s linear 0s;
+		-o-transition: opacity 0.2s linear 0s;
+		transition: opacity 0.2s linear 0s;
+		-webkit-backface-visibility: hidden;
+		-moz-backface-visibility: hidden;
+		-ms-backface-visibility: hidden;
+		-o-backface-visibility: hidden;
+		backface-visibility: hidden;
+	}
+}
+
+.product-caption{
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+}
+
+.k2store .dropdown-menu li>a:hover, 
+.k2store .dropdown-menu li>a:focus, 
+.k2store .dropdown-submenu:hover>a{
+	background: @black !important;
+}
+
+.k2store .dropdown-menu .active>a, .k2store .dropdown-menu .active>a:hover{
+	background: @black !important;
+	color: @white !important;
+}
+
+.itemSocialSharing{
+	text-align: center;
+	&>div{
+		float: none;
+		display: inline;
+	}
+}

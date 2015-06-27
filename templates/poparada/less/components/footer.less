@@ -1,0 +1,73 @@
+footer{
+	font-family: @l-font;
+	font-size: 1em;
+	padding: 50px 0 90px;
+	position: relative;
+	background: url(../images/patterns/footer.png);
+	.module{
+		position: absolute;
+		margin-left: 10px;
+		bottom: 0;
+		p{
+			margin: 0;
+		}
+	}
+	.social{
+		margin-top: 10px;
+		span[class*=icon-]{
+			color: @white;
+		}
+	}
+	.menu{
+		// display: table;
+		overflow: hidden;
+		width: 100%;
+		color: darken(@white, 15%);
+		li{
+			padding-top: 10px;
+		}
+		
+		.generate-columns(5);
+		
+		&>li{
+			vertical-align: top;
+			float: left;
+			// display: table-cell;
+			padding-left: 25px;
+			font-size: 1.2em;
+		}
+
+		a{
+			color: inherit;
+
+			&:hover{
+				color: darken(@white, 20%);
+			}
+		}
+	}
+	#tm{
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+	}
+}
+
+
+
+#breadcrumbs{
+	margin: 0;
+	background: none;
+}
+
+.generate-columns(@n, @i: 1) when (@i =< @n) {
+	@x: (@n+1) - @i;
+  .column-@{x} {
+    width: (@i * 100% / @n);
+		
+    @media screen and (max-width:768px) {
+    	padding-top: 30px;
+    	width: 50%;
+    }
+  }
+  .generate-columns(@n, (@i + 1));
+}

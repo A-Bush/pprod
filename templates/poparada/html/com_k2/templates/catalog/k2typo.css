@@ -1,0 +1,10 @@
+/**
+ * @version		2.6.x
+ * @package		K2
+ * @license		GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * k2typo.css   Custom K2 Typo CSS for Default K2 Template Override 
+ * Created by K2Joom.com
+ */
+/* Copy css classed from K2 component k2.css, add here and modify */
+/* Include any K2 Typo related styling */
+div.itemHeader h2.itemTitle {font-family:inherit;}

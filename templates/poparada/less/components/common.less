@@ -1,0 +1,242 @@
+html{
+	height: 100%;
+}
+body{
+	font-family: @body-font;
+	color: @light-black;
+	height: 100%;
+}
+
+img.clr{
+    clear: both;
+}
+a{
+	
+	color: @black;
+	font-family: @m-font;
+	&:hover{
+		color: darken(@black, 20%);
+	}
+}
+.center{
+	position: relative;
+}
+
+.center-center{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.pad-top{
+	padding-top: 20px;
+}
+
+.pad-left{
+	padding-left: 10px;
+}
+
+.pad-right{
+	padding-right: 10px;
+}
+
+.hr{
+	margin-bottom: 5px;
+}
+
+.margin-top{
+	margin-top: 10px;
+}
+
+.no-margin{
+	margin: 0;
+}
+
+.no-top-margin{
+	margin-top: 0;
+}
+
+.bordered-bottom{
+	padding-bottom: 5px;
+	border-bottom: 1px solid @black;
+}
+
+.table{
+	display: table;
+	width: 100%;
+	.generate-cells(10);
+}
+
+.generate-cells(@n, @i: 1) when (@i =< @n) {
+	@x: @i*10;
+  .cell-@{x} {
+  	display: table-cell;
+  	vertical-align: top;
+    width: @x*1%;
+    position: relative;
+    padding-bottom: 5px;
+		
+    @media screen and (max-width:468px) {
+    	display: block;
+    	width: 100%;
+    }
+
+  }
+  .generate-cells(@n, (@i + 1));
+}
+.generate-padding-all(5);
+
+.generate-padding-all(@n, @i: 1) when (@i =< @n) {
+	@x: @i*10;
+  .pad-all-@{x} {
+    padding: @x*1px;
+  }
+  .generate-padding-all(@n, (@i + 1));
+}
+
+.generate-padding-top-bottom(5);
+
+.generate-padding-top-bottom(@n, @i: 1) when (@i =< @n) {
+	@x: @i*10;
+  .pad-top-bottom-@{x} {
+    padding: @x*1px 0 !important;
+  }
+  .generate-padding-top-bottom(@n, (@i + 1));
+}
+
+.generate-padding-left(5);
+
+.generate-padding-left(@n, @i: 1) when (@i =< @n) {
+	@x: @i*10;
+  .pad-left-@{x} {
+    padding-left: @x*1px !important;
+  }
+  .generate-padding-left(@n, (@i + 1));
+}
+
+.generate-padding-bottom(5);
+
+.generate-padding-bottom(@n, @i: 1) when (@i =< @n) {
+	@x: @i*10;
+  .pad-bottom-@{x} {
+    padding-bottom: @x*1px !important;
+  }
+  .generate-padding-bottom(@n, (@i + 1));
+}
+
+.bordered-after{
+	&:after{
+		content: '';
+		border-bottom: 1px solid;
+		width: 100%;
+		display: block;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		z-index: 0;
+	}
+	&:last-child{
+		&:before{
+		content: '';
+		width: 20px;
+		height: 10px;
+		background: white;
+		display: block;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		z-index: 1;
+		}
+	}
+}
+
+.img-one-height{
+	height: 300px;
+	width: auto;
+	padding: 5px;
+
+	@media screen and (max-width:992px) {
+    	height: 200px;
+    }
+}
+
+.img-100-height{
+	height: 150px;
+	width: auto;
+
+	@media screen and (max-width:992px) {
+    	height: 80px;
+    }
+}
+
+#map-canvas{
+	height: 400px;
+}
+
+.btn-common{
+	.button-common(10px 30px, 1.3em);
+}
+
+.btn-smaller{
+	.button-common(5px 15px, 1em, 1px);
+}
+
+.btn-inverse{
+	.button-common(5px 15px, 1em, 0px, @white);
+	background: fade(@black, 30%) !important;
+	color: @white;
+}
+
+.button-common(@pad, @f-size, @shadow:2px, @border-color:#333){
+	background: none !important;
+	border: 3px solid @border-color !important;
+	box-shadow: @shadow @shadow #ccc !important;
+	border-radius: 0 !important;
+	padding: @pad !important;
+	font-size: @f-size !important;
+	&:hover{
+		box-shadow: none !important;
+		-webkit-transform: translate(@shadow, @shadow) !important;
+		transform: translate(@shadow, @shadow) !important;
+	}
+}
+
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus{
+	background-color: @black;
+	border-color: @black;
+}
+.pagination>li>a, .pagination>li>span{
+	color: @black;
+}
+.pagination>li>a:hover, .pagination>li>span:hover, .pagination>li>a:focus, .pagination>li>span:focus{
+	color: @light-black;
+}
+
+.block-center{
+	display: block;
+	margin: 0 auto;
+}
+
+*:target{
+	padding-top: 102px !important;
+}
+
+.container-fluid{
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+.dropdown{
+	margin-top: 10px;
+	& > span {
+		cursor: pointer;
+		padding: 10px;
+
+		&:hover{
+			border-bottom: 2px solid @black;
+		}
+	}
+}

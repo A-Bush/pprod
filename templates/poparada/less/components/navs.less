@@ -1,0 +1,304 @@
+header {
+
+  .navbar-brand {
+    font-family: @h-font;
+    font-size: 2.5em;
+    color: @black;
+    // height: auto;
+    // display: table;
+    padding-top: 10px;
+    transform-origin: top left;
+
+    span {
+      display: table-cell;
+      vertical-align: middle;
+      &.brand-name {
+        padding: 10px;
+      }
+    }
+
+    #popa {
+      width: 60px;
+      height: 60px;
+
+      #p, #around {
+        fill: @black;
+      }
+    }
+
+    @media screen and (max-width: 1124px) {
+      font-size: 2em;
+      #popa {
+        width: 45px;
+        height: 45px;
+      }
+    }
+
+    @media screen and (max-width: 1024px) {
+      font-size: 1.5em;
+      #popa {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    @media @mobile {
+      height: 40px;
+    }
+
+  }
+
+  .navbar-header {
+    button.navbar-toggle {
+      border: 1px solid @black;
+      transform-origin: top right;
+      margin-bottom: 0;
+      span.icon-bar {
+        background: @black;
+      }
+    }
+  }
+
+  .navbar {
+    position: fixed;
+    width: 100%;
+
+    top: 0;
+    z-index: 99;
+    margin: 0;
+    @media screen and (max-width: 772px) {
+      min-height: 40px;
+    }
+    .navbar-right {
+      transform-origin: top right;
+
+      @media screen and (max-width: 1124px) {
+        font-size: 0.95em;
+      }
+      @media screen and (max-width: 1040px) {
+        font-size: 0.85em;
+      }
+      @media screen and (max-width: 992px) {
+        font-size: 0.75em;
+      }
+      @media screen and (max-width: 887px) {
+        font-size: 0.65em;
+      }
+      @media screen and (max-width: 772px) {
+        transform: none !important;
+      }
+    }
+    .inline-nav {
+      display: inline-block;
+
+    }
+    ul#top-right {
+      position: relative;
+      left: 5%;
+      @media screen and (max-width: 1220px) {
+        left: 0;
+      }
+      @media screen and (max-width: 1155px) {
+        font-size: 0.8em;
+      }
+    }
+    .inline-nav > li {
+      display: inline-block;
+      text-align: center;
+      a {
+        font-family: @body-font;
+        text-transform: uppercase;
+        padding: 25px 5px;
+        font-size: 1em;
+        @media screen and (max-width: 1040px) {
+          font-size: 0.9em;
+        }
+        @media screen and (max-width: 992px) {
+          font-size: 0.8em;
+        }
+        @media screen and (max-width: 887px) {
+          font-size: 0.7em;
+        }
+        @media screen and (max-width: 772px) {
+        }
+      }
+
+      .big-nav {
+        font-family: @m-font;
+        font-size: 1.3em;
+        padding: 25px;
+        @media screen and (max-width: 1040px) {
+          font-size: 1.2em;
+          padding: 25px 20px;
+        }
+        @media screen and (max-width: 992px) {
+          font-size: 1.1em;
+          padding: 25px 15px;
+        }
+        @media screen and (max-width: 887px) {
+          font-size: 1em;
+          padding: 25px 10px;
+        }
+        @media screen and (max-width: 772px) {
+          padding: 25px 5px;
+        }
+      }
+    }
+    #navbar-collapse-1 {
+      text-align: center;
+      & > ul {
+        // position: absolute;
+      }
+    }
+
+    .contacts {
+      padding: 5px;
+      font-family: @l-font;
+    }
+
+    .social {
+      padding: 5px;
+      font-size: 1.2em;
+
+    }
+    a:hover {
+      text-decoration: none;
+      color: lighten(@light-black, 10%);
+      background: none;
+    }
+  }
+}
+
+#top-right {
+  & > li {
+    &:last-child {
+      padding-left: 2.5px;
+      position: relative;
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        border-left: 1px solid @black;
+        height: 1em;
+      }
+    }
+  }
+}
+
+#top-subnav {
+  // top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  background: fade(@white, 95%);
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  @media @mobile {
+    z-index: 99;
+
+    &.fixedsubnav {
+      z-index: 1;
+    }
+  }
+  &.fixedsubnav {
+    position: fixed;
+  }
+
+  ul {
+    padding: 12px 0;
+    font-size: 1.2em;
+    margin: 0;
+    li {
+      padding: 0 2%;
+    }
+    @media screen and (max-width: 1154px) {
+      font-size: 1em;
+    }
+    @media screen and (max-width: 992px) {
+      font-size: 0.8em;
+    }
+  }
+  #list-with-ddown {
+    & > li {
+      &:first-child {
+        position: absolute;
+        left: 0;
+      }
+      &:last-child {
+        position: absolute;
+        right: 0;
+        a {
+          font-size: 0.7em;
+          color: fade(@light-black, 70%);
+
+          &:hover {
+            color: @light-black;
+          }
+          &:before {
+            font-size: 2.2em;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            left: -90%;
+            top: -50%;
+          }
+        }
+      }
+      // width: 100%;
+      &:not(:first-child):not(:last-child) > a {
+        &:after {
+          content: '';
+          display: inline-block;
+          width: 0;
+          height: 0;
+          margin-left: 2px;
+          vertical-align: middle;
+          border-top: 4px solid;
+          border-right: 4px solid transparent;
+          border-left: 4px solid transparent;
+        }
+      }
+
+    }
+    .ddown-list {
+      display: none;
+      width: 100%;
+      left: 0;
+      position: fixed;
+      z-index: 999;
+      background-color: @white;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      @media @mobile{
+        overflow: auto;
+        padding: 0;
+      }
+      @media @mobile and (orientation: portrait) {
+        max-height: 500px;
+      }
+      @media @mobile and (orientation: landscape) {
+        max-height: 300px;
+      }
+      li {
+        img {
+          margin: auto;
+        }
+        .ddown-title {
+          font-size: 1em;
+          font-family: @l-font;
+        }
+        @media @mobile {
+          display: block;
+          .ddown-title {
+            font-size: 2em;
+          }
+        }
+      }
+    }
+  }
+}

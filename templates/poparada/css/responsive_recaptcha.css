@@ -1,0 +1,52 @@
+/*! responsive reCAPTCHA by jaicab - https://github.com/jaicab/responsive-reCAPTCHA */
+*,
+*:after,
+*:before {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#responsive_recaptcha img,
+#responsive_recaptcha #recaptcha_image {
+	width: 100% !important;
+	height: auto !important;
+	-webkit-border-radius: 0.5em;
+	-moz-border-radius: 0.5em;
+	border-radius: 0.5em;
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+}
+#logo {
+	stroke-width: 0px;
+	stroke: #aaa;
+}
+.img-one-height-blog {
+	height: 400px;
+	width: auto;
+	padding: 5px;
+}
+@media screen and (max-width: 768px) {
+	.img-one-height-blog {
+		height: 250px;
+	}
+	.pad-left-20{
+		padding-left: 0px !important
+	}
+	.pad-all-20{
+		padding: 0;
+	}
+	.pad-all-30{
+		padding: 30px 0px 30px 0px;
+	}
+	.pad-top-bottom-50{
+		padding: 50px 15px 50px 15px !important
+	}
+}
+.fill-fabrics{
+	margin-top: 20px !Important
+}
+.k2store.row{
+	margin-left: 20px !important
+}
