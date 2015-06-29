@@ -1025,27 +1025,27 @@ If you add:
         NavBarView.addSlick.synced();
         /*stars*/
         NavBarView.ratingStars(stars, rating);
-
-        jQuery('.btn-fabric').one('click', function (e) {
-            getFabrics(this);
-        });
+		window.onload = getFabrics(this);
+		//		jQuery('.btn-fabric').one('click', function (e) {
+		//  getFabrics(this);
+		//});
 
 
 		function getFabrics(el) {
-			
+
 			var jqxhr = jQuery.get(root + "/includes/fabrics/fetch_fabrics.php",
 								   function (data) {
 									   //
 								   }, "json")
 			.done(function (data) {
 				Data = data;
-				
+
 				dataWork(data);
 				NavBarView.addAccordion($);
 				addHandlers(el);
 			})
 			.fail(function (err) {
-				
+
 			});
 		}
 
