@@ -1118,7 +1118,6 @@ If you add:
             var modal = jQuery($elt.attr('data-target'));
             var index = modal.attr('data-index');
             var modalDialog = modal.find('.modal-dialog');
-            console.log('index', index);
             var apply = {};
             var dropdown = modal.find('.dropdown');
             function zoomIn(event) {
