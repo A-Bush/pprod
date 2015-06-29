@@ -1020,19 +1020,19 @@ If you add:
         var rating = Math.floor(voting.attr('data-percent') / 20);
         var stars = jQuery('.stars');
         var Data;
-
+        var wHeight = $(window).height();
         NavBarView.addSlick.center();
         NavBarView.addSlick.synced();
         /*stars*/
         NavBarView.ratingStars(stars, rating);
-		window.onload = getFabrics(this);
-		//		jQuery('.btn-fabric').one('click', function (e) {
-		//  getFabrics(this);
-		//});
+        // getFabrics(this);
+		jQuery('.btn-fabric').one('click', function (e) {
+		  getFabrics(this);
+		});
 
 
 		function getFabrics(el) {
-
+            console.log('getFabrics');
 			var jqxhr = jQuery.get(root + "/includes/fabrics/fetch_fabrics.php",
 								   function (data) {
 									   //
@@ -1050,16 +1050,21 @@ If you add:
 		}
 
         function dataWork(data, expand) {
+
             var fabricsBodies = jQuery('.fabrics-body');
             fabricsBodies.hide();
+            // console.log(jQuery(this));
             var fabrics = fabricsBodies.map(function () {
                 var opt = jQuery.trim(jQuery(this).find('.fabric-title label').text());
                 var filterAndTemplate = filterByAndTemplate('name', opt, jQuery(this));
                 return data.filter(filterAndTemplate);
-            }).get();
+            });
             if (expand) {
                 fabricsBodies.find('.panel-collapse').addClass('in');
+            } else {
+                fabricsBodies.find('.panel-collapse').removeClass('in').first().addClass('in');
             }
+
         };
 
         function template(el, itemObject) {
@@ -1103,36 +1108,19 @@ If you add:
             function getExtraFieldValue(argument) {
                 item.extra_fields.forEach()
             }
-
         }
 
-        function filtersTemplate(applied) {
-            var $filtersUl = jQuery('#applied-filters');
-            $filtersUl.html('');
-            if (Object.keys(applied).length) {
-                var content = '<li>{filter} : <span class="label label-default" data-filter="#{field}-filter">{value} <span class="glyphicon glyphicon-remove"></span></span></li>';
-                var html = '<li>Фильтры</li>';
-                var clear = '<li id="clear-filters"><span class="label label-default" data-filter=".dropdown-menu">Убрать фильтры<span class="glyphicon glyphicon-remove"></span></span></li>';
-
-                for (var filter in applied) {
-                    if (applied[filter] != 'all') {
-                        var type = jQuery.trim(jQuery('#fabric-' + filter).text()),
-                            label = jQuery.trim(jQuery('#' + filter + '-filter>li.active[data-field="' + applied[filter] + '"]').text());
-                        html += content.replace('{filter}', type)
-                            .replace('{field}', filter)
-                            .replace('{value}', label);
-                    }
-                }
-                html += clear;
-                $filtersUl.append(html);
-            }
-        }
+        
 
         function addHandlers(elt, data) {
             //
             var $elt = jQuery(elt);
             var modal = jQuery($elt.attr('data-target'));
-
+            var index = modal.attr('data-index');
+            var modalDialog = modal.find('.modal-dialog');
+            console.log('index', index);
+            var apply = {};
+            var dropdown = modal.find('.dropdown');
             function zoomIn(event) {
 
                 event.preventDefault();
@@ -1140,15 +1128,37 @@ If you add:
                 var img = el.find('.img-fabric');
                 var src = img[0].src.replace('sm-', '');
                 var imgZoom = $('#img-zoom');
-
                 img.closest('.panel-body').prepend(imgZoom);
                 imgZoom.attr('data-input', el.attr('data-input')).css('background-image', 'url(' + src + ')').show();
-                adjustModalHeight(imgZoom);
+                adjustModalHeight();
                 imgZoom.attr('data-fabric', img.attr('id'));
             };
-            function adjustModalHeight(imgZoom) {
+            function adjustModalHeight() {
                 // modal.scrollTop(100);
-                $('.modal-backdrop').height($(document).height());
+                var height = Math.max(wHeight, modalDialog.height()+100);
+                $('.modal-backdrop').height(height);
+            }
+
+            function filtersTemplate(applied) {
+                var $filtersUl = jQuery('#applied-filters'+index);
+                $filtersUl.html('');
+                if (Object.keys(applied).length) {
+                    var content = '<li>{filter} : <span class="label label-default" data-filter="#{field}-filter'+index+'">{value} <span class="glyphicon glyphicon-remove"></span></span></li>';
+                    var html = '<li>Фильтры</li>';
+                    var clear = '<li ><span class="label label-default" id="clear-filters">Убрать фильтры<span class="glyphicon glyphicon-remove"></span></span></li>';
+
+                    for (var filter in applied) {
+                        if (applied[filter] != 'all') {
+                            var type = jQuery.trim(jQuery('#fabric-' + filter+index).text()),
+                                label = jQuery.trim(jQuery('#' + filter + '-filter'+index+'>li.active[data-field="' + applied[filter] + '"]').text());
+                            html += content.replace('{filter}', type)
+                                .replace('{field}', filter)
+                                .replace('{value}', label);
+                        }
+                    }
+                    html += clear;
+                    $filtersUl.append(html);
+                }
             }
 
             function pickFabric(event) {
@@ -1166,11 +1176,9 @@ If you add:
                 modal.modal('hide');
             }
 
+
             function filters() {
-
-                var apply = {};
                 var elt;
-
                 return function (event) {
                     event.preventDefault();
 
@@ -1179,7 +1187,7 @@ If you add:
                     /*.dropdown-menu li*/
                     var $el = jQuery(this);
                     var $parent = $el.parent();
-                    var key = $parent[0].id.replace('-filter', '');
+                    var key = $parent[0].id.replace('-filter'+index, '');
                     var value = $el.attr('data-field').toLowerCase();
 
                     $parent.find('.active').removeClass('active');
@@ -1197,8 +1205,13 @@ If you add:
                     for (var field in apply) {
                         filter(field, filtered);
                     }
-                    dataWork(filtered, true);
 
+                    if (Object.keys(apply).length) {
+                        dataWork(filtered, true);
+                    } else {
+                        dataWork(filtered);
+                    }
+                    adjustModalHeight();
 
                     function filter(field, objArr) {
                         var compare = apply[field];
@@ -1218,22 +1231,30 @@ If you add:
             }
 
             function removeFilter(event) {
+                
                 var $el = jQuery(this);
-                var dataField = $el.attr('data-filter');
-                jQuery(dataField + ' li[data-field="all"]').click();
-                jQuery('.collapse.in').removeClass('in');
+                if (this.id === 'clear-filters' || $el.is(modal)) {
+                    $('#applied-filters'+index).html('');
+                    dropdown.find('.active').removeClass('active');
+                    apply = {};
+                    dataWork(Data);
+                    adjustModalHeight();
+                } else {
+                    var dataField = $el.attr('data-filter');
+                    $(dataField + ' li[data-field="all"]').click();
+                }
 
             }
 
-            jQuery('[data-toggle="tooltip"]').tooltip();
+            modal.find('[data-toggle="tooltip"]').tooltip();
             /*tooltip init*/
-            jQuery('.fabrics-accordion').on('click', '.icon-zoomin', zoomIn);
+            modal.find('.fabrics-accordion').on('click', '.icon-zoomin', zoomIn);
 
             modal.on('click', '.pick', pickFabric);
             modal.on('hidden.bs.modal', removeFilter);
-            jQuery('.dropdown').on('click', '.dropdown-menu li', filters());
+            dropdown.on('click', '.dropdown-menu li', filters());
 
-            jQuery('#applied-filters').on('click', '.label', removeFilter);
+            $('#applied-filters'+index).on('click', '.label', removeFilter);
 
         };
 
@@ -1244,11 +1265,8 @@ If you add:
 					elt.show();
 					template(elt, element);
 					return element;
-
 				}
-
 			}
-
 		}
 
 
@@ -1270,8 +1288,5 @@ If you add:
                 }
             }
         }
-
-
-    })
-    ;
+    });
 </script>

@@ -54,7 +54,7 @@ $query->select($db->quoteName(array('a.name', 'b.id', 'b.title', 'b.alias', 'b.h
     </button>
 
   <!-- Modal -->
-    <div class="modal fade fabricsModal" id="fabricsModal<?php echo($index) ?>" tabindex="-1" role="dialog" aria-labelledby="fabricsModal<?php echo($index) ?>Label" aria-hidden="true">
+    <div class="modal fade fabricsModal" id="fabricsModal<?php echo($index) ?>" data-index="<?php echo($index) ?>" tabindex="-1" role="dialog" aria-labelledby="fabricsModal<?php echo($index) ?>Label" aria-hidden="true">
     <!-- modal-dialog -->
       <div class="modal-dialog">
       <!-- modal-content -->
@@ -77,12 +77,12 @@ $query->select($db->quoteName(array('a.name', 'b.id', 'b.title', 'b.alias', 'b.h
 
               <ul class="list-inline">
                 <li class="dropdown">
-                  <span id="fabric-fabric" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                  <span id="fabric-fabric<?php echo($index) ?>" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
                     Вид ткани
                     <span class="caret"></span>
                   </span>
 
-                  <ul id="fabric-filter" class="dropdown-menu" role="menu" aria-labelledby="fabric-fabric">
+                  <ul id="fabric-filter<?php echo($index) ?>" class="dropdown-menu" role="menu" aria-labelledby="fabric-fabric">
 
                     <!-- <li role="presentation">
                       <a role="menuitem" tabindex="-1" href="#">Флок</a>
@@ -101,11 +101,11 @@ $query->select($db->quoteName(array('a.name', 'b.id', 'b.title', 'b.alias', 'b.h
                   </ul>
                 </li>
                 <li class="dropdown">
-                  <span id="fabric-category" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">Ценовая категория
+                  <span id="fabric-category<?php echo($index) ?>" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">Ценовая категория
                     <span class="caret"></span>
                   </span>
 
-                  <ul id="category-filter" class="dropdown-menu" role="menu" aria-labelledby="fabric-category">
+                  <ul id="category-filter<?php echo($index) ?>" class="dropdown-menu" role="menu" aria-labelledby="fabric-category">
                    <li class="category" data-field="1"><a href="">Первая категория</a></li>
 				   <li class="category" data-field="2"><a href="">Вторая категория</a></li>
 				   <li class="category" data-field="3"><a href="">Третья категория</a></li>
@@ -114,12 +114,12 @@ $query->select($db->quoteName(array('a.name', 'b.id', 'b.title', 'b.alias', 'b.h
                   </ul>
                 </li>
                 <li class="dropdown">
-                  <span id="fabric-color" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                  <span id="fabric-color<?php echo($index) ?>" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
                     Цвет
                     <span class="caret"></span>
                   </span>
 
-                  <ul id="color-filter" class="dropdown-menu" role="menu" aria-labelledby="fabric-color">
+                  <ul id="color-filter<?php echo($index) ?>" class="dropdown-menu" role="menu" aria-labelledby="fabric-color">
                     <li class="color" data-field="1"><a href="">Белый</a></li>
                     <li class="color" data-field="2"><a href="">Серый</a></li>
                     <li class="color" data-field="3"><a href="">Чёрный</a></li>
@@ -134,7 +134,7 @@ $query->select($db->quoteName(array('a.name', 'b.id', 'b.title', 'b.alias', 'b.h
                     <li class="color" data-field="12"><a href="">Коричневый</a></li>
                     <li class="color" data-field="13"><a href="">Бежевый</a></li>
                     <li class="color" data-field="14"><a href="">Серебристый</a></li>
-					<li class="color" data-field="16"><a href="">Золотой</a></li>
+					           <li class="color" data-field="16"><a href="">Золотой</a></li>
                     <li class="color" data-field="15"><a href="">Разноцветный</a></li>
 					<li class="color" data-field="all"><a href="">Все цвета</a></li>
 
@@ -143,7 +143,7 @@ $query->select($db->quoteName(array('a.name', 'b.id', 'b.title', 'b.alias', 'b.h
               </ul>
 
               <div>
-                <ul id="applied-filters" class="list-inline">
+                <ul id="applied-filters<?php echo($index) ?>" class="list-inline">
 
                 </ul>
               </div>
