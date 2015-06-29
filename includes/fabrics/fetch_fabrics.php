@@ -44,20 +44,20 @@
                      'color' => $color,
 					 'colorOrigin' => $colorOrigin,
                      'image' => $image);
-
-    if(isset($assoc[$row['name']])){
+    $fname = mb_strtolower($row['name'], 'UTF-8');
+    if(isset($assoc[$fname])){
       $fabric[] = $values;
       $hits += $row['hits'];
-        $assoc[$row['name']]['hits'] = $hits;
-        $assoc[$row['name']]['items'] = $fabric;
+        $assoc[$fname]['hits'] = $hits;
+        $assoc[$fname]['items'] = $fabric;
 
     }else{
 
         $fabric = array();
         $description = strip_tags($row['description'], '<br><br/>');
         $hits = $row['hits'];
-      $fabric[] = $values;
-      $assoc[$row['name']] = array(
+        $fabric[] = $values;
+        $assoc[$fname] = array(
         'name' => $row['name'],
         'hits' => $hits,
         'items' => $fabric,
@@ -67,12 +67,12 @@
   }
 
 
-  foreach ($assoc as $key => $value) {
-    $objects[] = $value;
+  // foreach ($assoc as $key => $value) {
+  //   $objects[] = $value;
 
-  }
+  // }
 //   var_dump($assoc);
-  $json = json_encode($objects);
+  $json = json_encode($assoc);
   echo($json);
 
   // $new_hits = mysqli_fetch_all($result);

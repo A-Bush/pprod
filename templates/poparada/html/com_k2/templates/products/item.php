@@ -1020,18 +1020,15 @@ If you add:
         var rating = Math.floor(voting.attr('data-percent') / 20);
         var stars = jQuery('.stars');
         var Data;
+        var dataArr = [];
         var wHeight = $(window).height();
         NavBarView.addSlick.center();
         NavBarView.addSlick.synced();
         /*stars*/
         NavBarView.ratingStars(stars, rating);
-        // getFabrics(this);
-		jQuery('.btn-fabric').one('click', function (e) {
-		  getFabrics(this);
-		});
+        getFabrics();
 
-
-		function getFabrics(el) {
+		function getFabrics() {
             console.log('getFabrics');
 			var jqxhr = jQuery.get(root + "/includes/fabrics/fetch_fabrics.php",
 								   function (data) {
@@ -1039,10 +1036,13 @@ If you add:
 								   }, "json")
 			.done(function (data) {
 				Data = data;
-
+                dataArr = Object.keys(data);
+                console.log('data', data);
 				dataWork(data);
 				NavBarView.addAccordion($);
-				addHandlers(el);
+				jQuery('.btn-fabric').one('click', function (e) {
+                  addHandlers(this);
+                });
 			})
 			.fail(function (err) {
 
@@ -1051,38 +1051,31 @@ If you add:
 
         function dataWork(data, expand) {
 
-            var fabricsBodies = jQuery('.fabrics-body');
-            fabricsBodies.hide();
-            // console.log(jQuery(this));
-            var fabrics = fabricsBodies.map(function () {
-                var opt = jQuery.trim(jQuery(this).find('.fabric-title label').text());
-                var filterAndTemplate = filterByAndTemplate('name', opt, jQuery(this));
-                return data.filter(filterAndTemplate);
+            var fabricsBodies = jQuery('.fabrics-body[data-fabric-item]');
+            console.log('length',fabricsBodies.length);
+            $.each(fabricsBodies, function(index, val) {
+                 /* iterate through array or object */
+                 var attr = $(this).attr('data-fabric-item');
+                var item = attr.toLowerCase();
+                if(data[item]){
+                    data[item].htmlName = attr;
+                    template($(this), data[item]);
+                }
             });
-            if (expand) {
-                fabricsBodies.find('.panel-collapse').addClass('in');
-            } else {
-                fabricsBodies.find('.panel-collapse').removeClass('in').first().addClass('in');
-            }
-
         };
-
+            var content = '<li class="fabric-group">' +
+                '<div class="fabric-pic" data-toggle="tooltip" data-placement="bottom" title data-original-title="{name}">' +
+                '<span class="icon-zoomin" data-input="#{inputId}">' +
+                '<img data-color="{id}" class="img-thumbnail img-fabric" src="' + root + '{src}" alt="" />' +
+                '</span>' +
+                '</div>' +
+                '</li>';
         function template(el, itemObject) {
             /*@el - '.fabrics-body'
              @itemObject - 'one fabrics array element'
              */
-
-            var content = '<li class="fabric-group">' +
-                '<div class="fabric-pic" data-toggle="tooltip" data-placement="bottom" title data-original-title="{name}">' +
-                '<span class="icon-zoomin" data-input="#{inputId}">' +
-                '<img id="{id}" class="img-thumbnail img-fabric" src="' + root + '{src}" alt="" />' +
-                '</span>' +
-                '</div>' +
-                '</li>';
             var input = el.find('input[type="radio"]');
             var itemsList = el.find('.fill-fabrics');
-            itemsList.html('');
-
             var inputId = (input) ? input[0].id : 0;
             var itemObjectItems = itemObject.items;
             itemObject.category = (input.attr('data-category') | 0) + '';
@@ -1093,7 +1086,7 @@ If you add:
                     .replace('{id}', item.colorOrigin)
                     .replace('{src}', src)
                     .replace('{inputId}', inputId);
-                itemsList.append(html.replace("{inputId}", inputId));
+                itemsList.append(html);
             });
             el.find('.fabric-descr').html(itemObject.description);
 
@@ -1105,21 +1098,29 @@ If you add:
                 }
             }
 
-            function getExtraFieldValue(argument) {
-                item.extra_fields.forEach()
-            }
+            // function getExtraFieldValue(argument) {
+            //     item.extra_fields.forEach()
+            // }
         }
-
+        
         
 
         function addHandlers(elt, data) {
             //
+            console.log('DATA', Data);
             var $elt = jQuery(elt);
             var modal = jQuery($elt.attr('data-target'));
             var index = modal.attr('data-index');
             var modalDialog = modal.find('.modal-dialog');
+            var modalFabricsImages = modal.find('.fabric-group');
             var apply = {};
+            
             var dropdown = modal.find('.dropdown');
+            var modalFabricsBodies = modal.find('.fabrics-body');
+            showFirst();
+            function showFirst(){
+                modalFabricsBodies.find('.panel-collapse').removeClass('in').first().addClass('in');
+            }
             function zoomIn(event) {
 
                 event.preventDefault();
@@ -1135,24 +1136,26 @@ If you add:
             function adjustModalHeight() {
                 // modal.scrollTop(100);
                 var height = Math.max(wHeight, modalDialog.height()+100);
-                $('.modal-backdrop').height(height);
+                modal.find('.modal-backdrop').height(height);
             }
 
             function filtersTemplate(applied) {
-                var $filtersUl = jQuery('#applied-filters'+index);
+                var $filtersUl = modal.find('.applied-filters');
                 $filtersUl.html('');
                 if (Object.keys(applied).length) {
-                    var content = '<li>{filter} : <span class="label label-default" data-filter="#{field}-filter'+index+'">{value} <span class="glyphicon glyphicon-remove"></span></span></li>';
+                    /*{filter} : */
+                    var content = '<li><span class="label label-default" data-filter="{field}">{value} <span class="glyphicon glyphicon-remove"></span></span></li>';
                     var html = '<li>Фильтры</li>';
-                    var clear = '<li ><span class="label label-default" id="clear-filters">Убрать фильтры<span class="glyphicon glyphicon-remove"></span></span></li>';
+                    var clear = '<li ><span class="label label-default" data-filter="clear">Убрать фильтры<span class="glyphicon glyphicon-remove"></span></span></li>';
 
                     for (var filter in applied) {
                         if (applied[filter] != 'all') {
-                            var type = jQuery.trim(jQuery('#fabric-' + filter+index).text()),
-                                label = jQuery.trim(jQuery('#' + filter + '-filter'+index+'>li.active[data-field="' + applied[filter] + '"]').text());
-                            html += content.replace('{filter}', type)
+                            var filterName = dropdown.find('[data-filter-type="'+filter+'"] .active').text();
+                            // var type = jQuery.trim(jQuery('#fabric-' + filter+index).text()),
+                                // label = jQuery.trim(jQuery('#' + filter + '-filter'+index+'>li.active[data-field="' + applied[filter] + '"]').text());
+                            html += content/*.replace('{filter}', type)*/
                                 .replace('{field}', filter)
-                                .replace('{value}', label);
+                                .replace('{value}', filterName);
                         }
                     }
                     html += clear;
@@ -1175,74 +1178,93 @@ If you add:
                 modal.modal('hide');
             }
 
-
-            function filters() {
-                var elt;
-                return function (event) {
-                    event.preventDefault();
-
-                    // body...
-                    var filtered = Data.slice(0);
-                    /*.dropdown-menu li*/
-                    var $el = jQuery(this);
-                    var $parent = $el.parent();
-                    var key = $parent[0].id.replace('-filter'+index, '');
-                    var value = $el.attr('data-field').toLowerCase();
-
-                    $parent.find('.active').removeClass('active');
-                    $el.addClass('active');
-
-                    if (value === "all") {
-                        delete apply[key];
-                    } else {
-                        apply[key] = value;
-                    }
-
-                    filtersTemplate(apply);
-
-                    elt = $el;
-                    for (var field in apply) {
-                        filter(field, filtered);
-                    }
-
-                    if (Object.keys(apply).length) {
-                        dataWork(filtered, true);
-                    } else {
-                        dataWork(filtered);
-                    }
-                    adjustModalHeight();
-
-                    function filter(field, objArr) {
-                        var compare = apply[field];
-                        var filterFn = filterBy(field, compare);
-                        if (field === 'color') {
-                            var temp = objArr.slice(0).map(mapFn(field, compare));
-                            filtered = temp.filter(function (element) {
-                                return element.items.length;
-                            });
-                        } else {
-                            filtered = objArr.filter(filterFn);
-                        }
-                        return filtered;
-
-                    }
-                }
+            function showFiltered(selector){
+                modalFabricsBodies.filter('[data-fabric-item="'+selector+'"]').show().find('.panel-collapse').addClass('in');
+            }
+            function showFilteredImages(selector){
+                modalFabricsImages.filter(':has(img[data-color="'+selector+'"])').show();
             }
 
-            function removeFilter(event) {
+            function filters (event) {
+                event.preventDefault();
                 
+                // body...
+                // var data = ($.isEmptyObject(filtered)) ? Data : filtered;
+                // var data = Data;
+                /*.dropdown-menu li*/
                 var $el = jQuery(this);
-                if (this.id === 'clear-filters' || $el.is(modal)) {
-                    $('#applied-filters'+index).html('');
-                    dropdown.find('.active').removeClass('active');
-                    apply = {};
-                    dataWork(Data);
-                    adjustModalHeight();
-                } else {
-                    var dataField = $el.attr('data-filter');
-                    $(dataField + ' li[data-field="all"]').click();
+                $el.parent().find('active').removeClass('active');
+                $el.addClass('active');
+                /*data-filter-type*/
+                var filterType = $el.parent().attr('data-filter-type');
+                var filterValue = $el.attr('data-field').toLowerCase();
+                if(filterValue=='all'){
+                    removeFilter(filterType);
+                }else{
+                    apply[filterType] = filterValue;
                 }
+                applyFilters();
+                
+                
+            }
+            function applyFilters () {
+                // body...
+                var filtered = dataArr.slice(0);
+                filtersTemplate(apply);
+                $.each(apply, function(key, val) {
+                    modalFabricsBodies.hide();
+                    if(key == 'color'){
+                        modalFabricsImages.hide();
+                    }
+                    filtered = filtered.filter(function (el) {
+                        var found = false;
+                         /* iterate through array or object */
+                        if(key == 'color'){
+                            $.each(Data[el].items, function(index, elt) {
+                                if(elt.color == val){
+                                   showFilteredImages(elt.colorOrigin);
+                                   if(!found){
+                                        showFiltered(Data[el].htmlName);
+                                       found = el;
+                                   }
+                                }
+                            });
+                        }
+                        if(Data[el][key] == val){
+                        // console.log(el, filterType, filterValue);
+                            showFiltered(Data[el].htmlName);
+                            found = el;
+                        }
+                        
+                        return found; 
+                    });
+                    
+                });
+                adjustModalHeight();
+            }
 
+            function removeFilter(key) {
+                if(key == 'clear'){
+                    apply = {};
+                }
+                if(apply[key]){
+                    delete apply[key];
+                }
+                if($.isEmptyObject(apply)){
+                    console.log('empty');
+                    modalFabricsBodies.show();
+                    modalFabricsImages.show();
+                    showFirst();
+                    filtersTemplate(apply);
+                    dropdown.find('.active').removeClass('active');
+                    adjustModalHeight();
+                }else{
+                    applyFilters();
+                }
+            }
+            function removeLabelFilter (e) {
+                console.log('key', $(this).attr('data-filter'));
+                removeFilter($(this).attr('data-filter'));
             }
 
             modal.find('[data-toggle="tooltip"]').tooltip();
@@ -1251,22 +1273,22 @@ If you add:
 
             modal.on('click', '.pick', pickFabric);
             modal.on('hidden.bs.modal', removeFilter);
-            dropdown.on('click', '.dropdown-menu li', filters());
+            dropdown.on('click', '.dropdown-menu li', filters);
 
-            $('#applied-filters'+index).on('click', '.label', removeFilter);
+            modal.find('.applied-filters').on('click', '.label', removeLabelFilter);
 
         };
 
-		function filterByAndTemplate(field, value, elt) {
-			jQuery('[data-toggle="tooltip"]').tooltip();
-			return function (element, index, array) {
-				if (element[field] && element[field].toLowerCase() == value.toLowerCase()) {
-					elt.show();
-					template(elt, element);
-					return element;
-				}
-			}
-		}
+		// function filterByAndTemplate(field, value, elt) {
+		// 	jQuery('[data-toggle="tooltip"]').tooltip();
+		// 	return function (element, index, array) {
+		// 		if (element[field] && element[field].toLowerCase() == value.toLowerCase()) {
+		// 			elt.show();
+		// 			template(elt, element);
+		// 			return element;
+		// 		}
+		// 	}
+		// }
 
 
         function mapFn(field, value) {

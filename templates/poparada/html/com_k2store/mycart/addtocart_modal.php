@@ -77,23 +77,23 @@ $query->select($db->quoteName(array('a.name', 'b.id', 'b.title', 'b.alias', 'b.h
 
               <ul class="list-inline">
                 <li class="dropdown">
-                  <span id="fabric-fabric<?php echo($index) ?>" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                  <span data-filter="fabric" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
                     Вид ткани
                     <span class="caret"></span>
                   </span>
 
-                  <ul id="fabric-filter<?php echo($index) ?>" class="dropdown-menu" role="menu" aria-labelledby="fabric-fabric">
+                  <ul data-filter-type="fabric" class="dropdown-menu" role="menu" aria-labelledby="fabric-fabric">
 
                     <!-- <li role="presentation">
                       <a role="menuitem" tabindex="-1" href="#">Флок</a>
                     </li> -->
-					<li class="type" data-field="1"><a href="">Оксфорд</a></li>
-					<li class="type" data-field="2"><a href="">Велюр</a></li>
-					<li class="type" data-field="3"><a href="">Рогожка</a></li>
+          					<li class="type" data-field="1"><a href="">Оксфорд</a></li>
+          					<li class="type" data-field="2"><a href="">Велюр</a></li>
+          					<li class="type" data-field="3"><a href="">Рогожка</a></li>
                     <li class="type" data-field="4"><a href="">Кожзам</a></li>
                     <li class="type" data-field="5"><a href="">Микрофибра</a></li>
                     <li class="type" data-field="6"><a href="">Флок</a></li>
-					<li class="type" data-field="7"><a href="">Шенилл</a></li>
+                    <li class="type" data-field="7"><a href="">Шенилл</a></li>
                     <li class="type" data-field="8"><a href="">Жаккард</a></li>
                     <li class="type" data-field="9"><a href="">Габардин</a></li>
 
@@ -101,25 +101,25 @@ $query->select($db->quoteName(array('a.name', 'b.id', 'b.title', 'b.alias', 'b.h
                   </ul>
                 </li>
                 <li class="dropdown">
-                  <span id="fabric-category<?php echo($index) ?>" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">Ценовая категория
+                  <span data-filter="category" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">Ценовая категория
                     <span class="caret"></span>
                   </span>
 
-                  <ul id="category-filter<?php echo($index) ?>" class="dropdown-menu" role="menu" aria-labelledby="fabric-category">
-                   <li class="category" data-field="1"><a href="">Первая категория</a></li>
-				   <li class="category" data-field="2"><a href="">Вторая категория</a></li>
-				   <li class="category" data-field="3"><a href="">Третья категория</a></li>
-				   <li class="category" data-field="4"><a href="">Четвёртая категория</a></li>
-                    <li class="type" data-field="all"><a href="">Все категории</a></li>
+                  <ul data-filter-type="category" class="dropdown-menu" role="menu" aria-labelledby="fabric-category">
+                     <li class="category" data-field="1"><a href="">Первая категория</a></li>
+          				   <li class="category" data-field="2"><a href="">Вторая категория</a></li>
+          				   <li class="category" data-field="3"><a href="">Третья категория</a></li>
+          				   <li class="category" data-field="4"><a href="">Четвёртая категория</a></li>
+                      <li class="type" data-field="all"><a href="">Все категории</a></li>
                   </ul>
                 </li>
-                <li class="dropdown">
-                  <span id="fabric-color<?php echo($index) ?>" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                <li class="dropdown" >
+                  <span data-filter="color" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
                     Цвет
                     <span class="caret"></span>
                   </span>
 
-                  <ul id="color-filter<?php echo($index) ?>" class="dropdown-menu" role="menu" aria-labelledby="fabric-color">
+                  <ul data-filter-type="color" class="dropdown-menu" role="menu" aria-labelledby="fabric-color">
                     <li class="color" data-field="1"><a href="">Белый</a></li>
                     <li class="color" data-field="2"><a href="">Серый</a></li>
                     <li class="color" data-field="3"><a href="">Чёрный</a></li>
@@ -143,7 +143,7 @@ $query->select($db->quoteName(array('a.name', 'b.id', 'b.title', 'b.alias', 'b.h
               </ul>
 
               <div>
-                <ul id="applied-filters<?php echo($index) ?>" class="list-inline">
+                <ul class="applied-filters list-inline" >
 
                 </ul>
               </div>
@@ -157,16 +157,16 @@ $query->select($db->quoteName(array('a.name', 'b.id', 'b.title', 'b.alias', 'b.h
     <!-- fabrics-accordion<?php echo($index) ?> -->
     <div class="panel-group fabrics-accordion" id="fabrics-accordion<?php echo($index) ?>" role="tablist" aria-multiselectable="true">
     <?php foreach ($option['optionvalue'] as $option_value) : ?>
-      <div class="panel panel-default fabrics-body">
+      <!-- fabrics body -->
+      <div class="panel panel-default fabrics-body"  data-fabric-item="<?php echo stripslashes($db->escape(JText::_($option_value['optionvalue_name']))); ?>">
         <div class="panel-heading" role="tab" id="heading<?php echo $option_value['product_optionvalue_id']; ?>">
           <div class="radio">
             <h4 class="fabric-title" data-toggle="collapse" data-parent="#fabrics-accordion<?php echo($index) ?>" href="#collapse<?php echo $option_value['product_optionvalue_id']; ?>" aria-expanded="false" aria-controls="collapse<?php echo $option_value['product_optionvalue_id']; ?>">
-                      <!-- <h4 class="panel-title"> -->
               <label for="<?php echo $option_value['product_optionvalue_id']; ?>">
                 <?php $checked = ''; if($option_value['product_optionvalue_default']) $checked = 'checked="checked"'; ?>
                 <input <?php echo $checked; ?>
-                  data-category="<?php echo $option_value['product_optionvalue_weight'] ?>"
                   type="radio"
+                  data-category="<?php echo ((int)$option_value['product_optionvalue_weight']) ?>"
                   name="product_option[<?php echo $option['product_option_id']; ?>]"
                   data-product-option="fabricsModal<?php echo($index) ?>"
                   value="<?php echo $option_value['product_optionvalue_id']; ?>"
@@ -175,7 +175,6 @@ $query->select($db->quoteName(array('a.name', 'b.id', 'b.title', 'b.alias', 'b.h
                 <?php echo stripslashes($db->escape(JText::_($option_value['optionvalue_name']))); ?>
 
               </label>
-                      <!-- </h4> -->
             </h4>
 
           </div><!-- /.radio -->
